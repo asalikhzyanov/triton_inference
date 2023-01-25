@@ -1,5 +1,5 @@
 /*
-Source: https://github.com/triton-inference-server/client
+Inspiration source: https://github.com/triton-inference-server/client
 */
 #include "../triton/triton.hpp"
 
@@ -22,13 +22,11 @@ void setModelInfo(ModelInfo &model_info)
   model_info.shape_.push_back(model_info.input_w_);
 }
 
-std::string request()
+std::string request(cv::Mat request_img)
 {
   int topk = 3;
-  int batch_size = 1;
   const std::string model_name = "densenet_onnx";
   std::string url("localhost:8001");
-  const std::string fn = "../mug.jpg";
 
   // Create the inference client for the server.
   TritonClient triton_client;
@@ -60,8 +58,8 @@ std::string request()
   // requirements
   std::vector<std::vector<uint8_t>> image_data;
   image_data.emplace_back();
-  fileToInputData(
-      fn, model_info.input_c_, model_info.input_h_, model_info.input_w_,
+  matImgToInputData(
+      request_img, model_info.input_c_, model_info.input_h_, model_info.input_w_,
       model_info.input_format_, model_info.type1_, model_info.type3_,
       &(image_data.back()));
 
@@ -91,4 +89,3 @@ std::string request()
 
   return postprocess(result, model_info.output_name_, topk);
 }
-

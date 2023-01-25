@@ -35,4 +35,4 @@ COPY . /trt-client-app
 RUN cd trt-client-app && mkdir build && cd build && bash -c "cmake .. && cmake --build ."
 
 # run executable (name has to match with CMakeLists.txt file)
-CMD [ "/bin/bash" ]
+ENTRYPOINT [ "/trt-client-app/build/image_client" ]

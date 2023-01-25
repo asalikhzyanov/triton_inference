@@ -1,5 +1,5 @@
 /*
-Source: https://github.com/triton-inference-server/client
+Inspiration source: https://github.com/triton-inference-server/client
 */
 
 #pragma once
@@ -144,16 +144,14 @@ namespace
   }
 
   void
-  fileToInputData(
-      const std::string &filename, size_t c, size_t h, size_t w,
+  matImgToInputData(
+      cv::Mat img, size_t c, size_t h, size_t w,
       const std::string &format, int type1, int type3,
       std::vector<uint8_t> *input_data)
   {
-    // Load the specified image.
-    cv::Mat img = cv::imread(filename);
     if (img.empty())
     {
-      std::cerr << "error: unable to decode image " << filename << std::endl;
+      std::cerr << "error: unable to get an image " << std::endl;
       exit(1);
     }
 
